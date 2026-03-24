@@ -20,11 +20,14 @@ export function AddLinkDialog({ categories, onAdd }: AddLinkDialogProps) {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
-  const [categoryId, setCategoryId] = useState(categories[0]?.id || 1)
+  const [categoryId, setCategoryId] = useState(0)
+  const effectiveCategoryId = categoryId || categories[0]?.id
 
   const handleSubmit = () => {
     if (!title || !url) return
-    onAdd(categoryId, title, url)
+    const targetId = effectiveCategoryId ?? categories[0]?.id
+    if (!targetId) return
+    onAdd(targetId, title, url)
     setTitle("")
     setUrl("")
     setOpen(false)
@@ -46,7 +49,7 @@ export function AddLinkDialog({ categories, onAdd }: AddLinkDialogProps) {
             <label className="text-sm font-semibold text-slate-700">카테고리 선택</label>
             <select 
               className="flex h-11 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
-              value={categoryId}
+              value={effectiveCategoryId ?? ''}
               onChange={(e) => setCategoryId(Number(e.target.value))}
             >
               {categories.map(cat => (

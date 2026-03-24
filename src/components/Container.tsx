@@ -1,33 +1,21 @@
-import { useState } from "react"
+import { useEffect } from "react"
 import { AddLinkDialog } from "@/components/AddLinkDialog"
 import { CategoryCard } from "@/components/CategoryCard"
 import { Footer } from "@/components/Footer"
 import { PageTitle } from "./PageTitle"
-
-const INITIAL_CATEGORIES = [
-  { id: 1, name: "업무 도구", links: [{ title: "GitHub", url: "https://github.com" }, { title: "SSG.com", url: "https://ssg.com" }] },
-  { id: 2, name: "학습 & 레퍼런스", links: [{ title: "React Docs", url: "https://react.dev" }, { title: "shadcn/ui", url: "https://ui.shadcn.com" }] },
-  { id: 3, name: "취미 & 일상", links: [{ title: "YouTube", url: "https://youtube.com" }] },
-]
-
-
-interface Category {
-  id: number
-  name: string
-  links: { title: string; url: string }[]
-}
+import { useLinkStore } from "@/store/useLinkStore"
 
 export function Container() {
-  const [categories, setCategories] = useState<Category[]>(INITIAL_CATEGORIES)
+  const categories = useLinkStore((state) => state.categories)
+  const fetchCategories = useLinkStore((state) => state.fetchCategories)
+  const addLink = useLinkStore((state) => state.addLink)
+
+  useEffect(() => {
+    fetchCategories()
+  }, [fetchCategories])
 
   const handleAddLink = (categoryId: number, title: string, url: string) => {
-    setCategories((prev) =>
-      prev.map((cat) =>
-        cat.id === categoryId
-          ? { ...cat, links: [...cat.links, { title, url: url.startsWith("http") ? url : `https://${url}` }] }
-          : cat
-      )
-    )
+    addLink(categoryId, title, url.startsWith("http") ? url : `https://${url}`)
   }
 
   return (

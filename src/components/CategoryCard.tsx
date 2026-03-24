@@ -22,13 +22,13 @@ export function CategoryCard({ name, links }: CategoryCardProps) {
       </div>
 
       <ul className="space-y-3">
-        {links.map((link, idx) => (
+        {(links ?? []).filter((link) => link?.title != null).map((link, idx) => (
           <li key={idx}>
             <a
-              href={link.url}
+              href={link.url ?? '#'}
               target="_blank"
               rel="noreferrer"
-              className="group flex items-center justify-between p-2 px-6 rounded-[40px] bg-[#fff] border border-slate-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:bg-slate-50 transition-all duration-300 transform hover:-translate-y-0.5"
+              className="group flex items-center justify-between p-4 px-6 rounded-[40px] bg-[#fff] border border-slate-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:bg-slate-50 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               {/* 왼쪽 텍스트 영역 */}
               <div className="flex flex-col">
@@ -36,7 +36,7 @@ export function CategoryCard({ name, links }: CategoryCardProps) {
                   {link.title}
                 </span>
                 <span className="text-slate-400 text-xs font-medium tracking-tight">
-                  {link.url.replace(/^https?:\/\//, '')}
+                  {(link.url ?? '').replace(/^https?:\/\//, '')}
                 </span>
               </div>
 
@@ -48,7 +48,7 @@ export function CategoryCard({ name, links }: CategoryCardProps) {
           </li>
         ))}
         
-        {links.length === 0 && (
+        {(links ?? []).length === 0 && (
           <div className="p-8 rounded-[40px] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center">
              <p className="text-xs text-slate-400 italic">저장된 링크가 없어요</p>
           </div>
