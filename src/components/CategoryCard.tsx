@@ -33,20 +33,17 @@ export function CategoryCard({ id, name, links, onAddLink }: CategoryCardProps) 
 
       <ul className="min-h-0 flex-1 space-y-3 overflow-y-auto">
         {(links ?? []).filter((link) => link?.title != null).map((link, idx) => (
-          <li key={idx}>
+          <li key={idx} className="overflow-hidden">
             <a
               href={link.url ?? '#'}
               target="_blank"
               rel="noreferrer"
-              className="group flex h-21 shrink-0 items-center justify-between overflow-hidden rounded-[40px] border border-slate-50 bg-[#fff] px-6 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)]"
+              className="group flex h-18 min-w-85 shrink-0 items-center justify-between overflow-hidden rounded-[40px] border border-slate-50 bg-white px-6 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)]"
             >
               {/* 왼쪽 텍스트 영역 */}
               <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-center gap-0.5 overflow-hidden pr-2">
                 <span className="line-clamp-1 text-sm font-bold tracking-tight text-slate-900 group-hover:text-slate-950">
                   {link.title}
-                </span>
-                <span className="text-slate-400 text-xs font-medium tracking-tight line-clamp-2 break-all">
-                  {(link.url ?? '').replace(/^https?:\/\//, '')}
                 </span>
               </div>
 
